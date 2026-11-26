@@ -17,15 +17,22 @@ class BodyEnd extends Component
             || config('cookies.gtm.enabled')
             || config('cookies.ga4.enabled');
 
+        $showBanner = config('cookies.banner.enabled') && $needsConsentUi && ! Consent::decided();
+
         $base = dirname(__DIR__, 3).'/resources';
 
         return view('cookies::body-end', [
-            'showBanner' => config('cookies.banner.enabled') && $needsConsentUi && ! Consent::decided(),
+            'showBanner' => $showBanner,
+            'consentGranted' => Consent::accepted(),
             'banner' => config('cookies.banner'),
-            'acceptUrl' => route('cookies.accept'),
-            'rejectUrl' => route('cookies.reject'),
-            'bannerCss' => is_file($base.'/css/banner.css') ? file_get_contents($base.'/css/banner.css') : '',
-            'bannerJs' => is_file($base.'/js/cookies.js') ? file_get_contents($base.'/js/cookies.js') : '',
+            'acceptUrl' => $showBanner ? route('cookies.accept') : null,
+            'rejectUrl' => $showBanner ? route('cookies.reject') : null,
+            'bannerCss' => $showBanner && is_file($base.'/css/banner.css')
+                ? file_get_contents($base.'/css/banner.css')
+                : '',
+            'bannerJs' => $showBanner && is_file($base.'/js/cookies.js')
+                ? file_get_contents($base.'/js/cookies.js')
+                : '',
             'scriptsOnLoad' => $scriptsOnLoad,
             'scriptsDeferred' => $scriptsDeferred,
         ]);

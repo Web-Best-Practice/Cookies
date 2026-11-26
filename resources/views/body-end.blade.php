@@ -42,9 +42,7 @@
             </button>
         </div>
     </div>
-@endif
 
-@once
     <style>{!! $bannerCss !!}</style>
     <script>
         window.WbpCookies = window.WbpCookies || {};
@@ -54,7 +52,22 @@
         };
     </script>
     <script>{!! $bannerJs !!}</script>
-@endonce
+@else
+    {{-- Lightweight track helper when consent is already decided (no banner CSS/JS). --}}
+    <script>
+        window.WbpCookies = window.WbpCookies || {};
+        window.WbpCookies.consentGranted = @json($consentGranted);
+        window.WbpCookies.track = window.WbpCookies.track || function (name, params) {
+            params = params || {};
+            window.dataLayer = window.dataLayer || [];
+            if (typeof window.gtag === 'function') {
+                window.gtag('event', name, params);
+                return;
+            }
+            window.dataLayer.push(Object.assign({ event: name }, params));
+        };
+    </script>
+@endif
 
 @include('cookies::partials.script-blocks', [
     'position' => 'body_end',
