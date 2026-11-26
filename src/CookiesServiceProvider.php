@@ -2,6 +2,7 @@
 
 namespace WebBestPractice\Cookies;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -9,10 +10,6 @@ use WebBestPractice\Cookies\Events\Track;
 use WebBestPractice\Cookies\Listeners\SendTrackEvent;
 use WebBestPractice\Cookies\Services\AnalyticsService;
 use WebBestPractice\Cookies\Services\ConsentService;
-use WebBestPractice\Cookies\View\Components\Banner;
-use WebBestPractice\Cookies\View\Components\Head;
-use WebBestPractice\Cookies\View\Components\Noscript;
-use WebBestPractice\Cookies\View\Components\Scripts;
 
 class CookiesServiceProvider extends ServiceProvider
 {
@@ -28,12 +25,7 @@ class CookiesServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'cookies');
 
-        $this->loadViewComponentsAs('cookies', [
-            Head::class,
-            Scripts::class,
-            Banner::class,
-            Noscript::class,
-        ]);
+        Blade::componentNamespace('WebBestPractice\\Cookies\\View\\Components', 'cookies');
 
         Route::middleware('web')
             ->prefix('cookies')
