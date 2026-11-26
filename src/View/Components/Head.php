@@ -4,14 +4,14 @@ namespace WebBestPractice\Cookies\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use WebBestPractice\Cookies\Support\ConfiguredScripts;
 use WebBestPractice\Cookies\Support\Consent;
 
 class Head extends Component
 {
     public function render(): View
     {
-        $scripts = collect(config('cookies.scripts', []))
-            ->filter(fn ($script) => ($script['position'] ?? '') === 'head');
+        [$scriptsOnLoad, $scriptsDeferred] = ConfiguredScripts::forPosition('head');
 
         return view('cookies::head', [
             'consentState' => Consent::gtagState(),
@@ -21,8 +21,8 @@ class Head extends Component
             'ga4Enabled' => (bool) config('cookies.ga4.enabled') && config('cookies.ga4.measurement_id'),
             'ga4LoadGtag' => (bool) config('cookies.ga4.load_gtag', true),
             'measurementId' => config('cookies.ga4.measurement_id'),
-            'scriptsOnLoad' => $scripts->filter(fn ($s) => ($s['required'] ?? false) || Consent::accepted())->values(),
-            'scriptsDeferred' => $scripts->filter(fn ($s) => ! ($s['required'] ?? false) && ! Consent::accepted())->values(),
+            'scriptsOnLoad' => $scriptsOnLoad,
+            'scriptsDeferred' => $scriptsDeferred,
         ]);
     }
 }

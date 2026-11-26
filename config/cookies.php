@@ -27,11 +27,12 @@ return [
 
     'banner' => [
         'enabled' => true,
-        'text' => 'We use cookies to improve your experience and measure site usage. You can accept or reject non-essential cookies.',
+        'title' => 'Cookies on this website',
+        'text' => 'We use essential cookies so this site works. With your permission we also use optional cookies to understand how the site is used. Non-essential cookies are not set until you choose Accept all.',
         'policy_url' => '/privacy-policy',
-        'policy_label' => 'Cookie Policy',
-        'accept_label' => 'Accept',
-        'reject_label' => 'Reject',
+        'policy_label' => 'Privacy Policy',
+        'accept_label' => 'Accept all',
+        'reject_label' => 'Reject all',
     ],
 
     /*

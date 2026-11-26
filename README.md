@@ -19,17 +19,20 @@ php artisan vendor:publish --tag=cookies-config
     <x-cookies::head />
 </head>
 <body>
-    <x-cookies::noscript />
-
-    <x-cookies::scripts position="body_start" />
+    <x-cookies::body-start />
 
     {{-- page content --}}
 
-    <x-cookies::banner />
-    <x-cookies::scripts position="body_end" />
+    <x-cookies::body-end />
 </body>
 </html>
 ```
+
+| Tag | Includes |
+|-----|----------|
+| `<x-cookies::head />` | Consent Mode defaults, GTM/GA4, `head` scripts |
+| `<x-cookies::body-start />` | GTM `<noscript>`, `body_start` scripts |
+| `<x-cookies::body-end />` | Consent banner (+ JS API), `body_end` scripts |
 
 ## Consent Mode
 
@@ -45,8 +48,8 @@ gtag('consent', 'default', {
 });
 ```
 
-- **Accept** → `gtag('consent', 'update', { ... granted })` + run deferred custom scripts  
-- **Reject** → consent stays denied; only essential / `required` scripts run  
+- **Accept all** → `gtag('consent', 'update', { ... granted })` + run deferred custom scripts  
+- **Reject all** → consent stays denied; only essential / `required` scripts run  
 
 ## Config scripts
 
