@@ -2,7 +2,6 @@
     "name": "web-best-practice/cookies",
     "description": "Laravel cookie consent (UK GDPR), Consent Mode v2, GA4/GTM, and custom scripts",
     "type": "library",
-    "version": "1.0.0",
     "license": "MIT",
     "authors": [
         {
