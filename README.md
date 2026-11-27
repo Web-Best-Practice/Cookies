@@ -4,52 +4,13 @@ Laravel package for UK GDPR cookie consent, Google Consent Mode v2, GA4 / GTM, c
 
 ## Install
 
-This package is **not** on Packagist. Add it as a custom VCS repository in your project's `composer.json`:
-
-```json
-{
-    "require": {
-        "web-best-practice/cookies": "^1.1"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Web-Best-Practice/Cookies"
-        }
-    ]
-}
-```
-
-Then install and publish the config:
+This package is **not** on Packagist. Add it as a custom VCS repository, then require and publish:
 
 ```bash
-composer update web-best-practice/cookies
-php artisan vendor:publish --tag=cookies-config
-```
-
-Or in one step after the `repositories` entry is present:
-
-```bash
+composer config repositories.cookies vcs https://github.com/Web-Best-Practice/Cookies
 composer require web-best-practice/cookies
 php artisan vendor:publish --tag=cookies-config
 ```
-
-### GitHub authentication
-
-Composer may call the GitHub API when resolving VCS packages. On servers (e.g. Cloudways), an expired or invalid token in `auth.json` causes `Bad credentials`.
-
-- For this **public** repo, remove a bad token if present:
-  ```bash
-  composer config -g --unset github-oauth.github.com
-  composer clear-cache
-  composer install
-  ```
-- Or set a valid token (needed for private repos, or if GitHub rate-limits unauthenticated API use):
-  ```bash
-  composer config -g github-oauth.github.com YOUR_GITHUB_TOKEN
-  ```
-
-See [Composer: Authentication for private packages](https://getcomposer.org/doc/articles/authentication-for-private-packages.md#github-oauth).
 
 ## Blade usage
 
