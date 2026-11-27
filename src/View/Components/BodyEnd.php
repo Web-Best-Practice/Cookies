@@ -13,11 +13,7 @@ class BodyEnd extends Component
     {
         [$scriptsOnLoad, $scriptsDeferred] = ConfiguredScripts::forPosition('body_end');
 
-        $needsConsentUi = ConfiguredScripts::hasOptional()
-            || config('cookies.gtm.enabled')
-            || config('cookies.ga4.enabled');
-
-        $showBanner = config('cookies.banner.enabled') && $needsConsentUi && ! Consent::decided();
+        $showBanner = config('cookies.banner.enabled') && ! Consent::decided();
 
         $base = dirname(__DIR__, 3).'/resources';
 
